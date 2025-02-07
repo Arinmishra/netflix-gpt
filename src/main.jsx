@@ -3,6 +3,9 @@ import "./index.css";
 import Body from "./components/Body";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/Login";
+import Browse from "./components/Browse";
+import { Provider } from "react-redux";
+import appStore from "../utils/appStore";
 
 const main = createBrowserRouter([
   {
@@ -13,8 +16,14 @@ const main = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/browse",
+    element: <Browse />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={main} />
+  <Provider store={appStore}>
+    <RouterProvider router={main} />
+  </Provider>
 );
