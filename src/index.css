@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+.movieList {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: red #000000; /*Thumb & track color*/
+}

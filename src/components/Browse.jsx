@@ -1,14 +1,16 @@
-import { Provider } from "react-redux";
 import Header from "./Header";
-import appStore from "../../utils/appStore";
+import TopContainer from "./TopContainer";
+import ListContainer from "./ListContainer";
+import Footer from "./footer";
 
 const Browse = () => {
   return (
-    <div>
-      <Provider store={appStore}>
-        <Header />
-      </Provider>
-    </div>
+    <>
+      <Header />
+      <TopContainer />
+      <ListContainer />
+      <Footer />
+    </>
   );
 };
 

@@ -59,7 +59,7 @@ const Header = () => {
         <img src="/Netflix_Logo.png" className="ml-40 h-20"></img>
         {userSelector && (
           <div className="flex items-center gap-2.5">
-            <p className="font-bold text-xl border-2 border-red-700 rounded-lg px-2.5 py-1">
+            <p className="font-bold text-xl border-2 text-white border-red-700 rounded-lg px-2.5 py-1">
               {userSelector.displayName}
             </p>
             <button
