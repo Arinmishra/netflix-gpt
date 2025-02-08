@@ -5,12 +5,18 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { auth } from "../../utils/firebase";
 import { useNavigate } from "react-router-dom";
-
 import { useSelector } from "react-redux";
+import { addGptSearch } from "../../utils/gptSlice";
+import { SUPPORTED_LANGUAGES } from "../../utils/constants";
+import { changeLang } from "../../utils/configslice";
 
 const Header = () => {
   const userSelector = useSelector((store) => store.user);
-  // console.log(userSelector);
+  const showGptSearch = useSelector((store) => store.gptSlice.showGptSearch);
+  const config = useSelector((store) => store.config.lang);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     signOut(auth)
@@ -21,9 +27,6 @@ const Header = () => {
         // An error happened.
       });
   };
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -53,17 +56,45 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
 
+  const handleGptSearchClick = () => {
+    // only render gpt search page when clicked
+    dispatch(addGptSearch(!showGptSearch));
+  };
+
+  const handleLangSelect = (e) => {
+    dispatch(changeLang(e.target.value));
+  };
+
   return (
     <>
-      <div className="flex items-center justify-between absolute w-full z-30">
-        <img src="/Netflix_Logo.png" className="ml-40 h-20"></img>
+      <div className="bg-gradient-to-b from-black to-100% flex items-center justify-between absolute w-full z-30">
+        <img src="/Netflix_Logo.png" className="ml-25 h-20"></img>
         {userSelector && (
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 m-2.5">
+            {showGptSearch && (
+              <select
+                className="text-white px-2 rounded-lg"
+                onClick={handleLangSelect}
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.name} className="text-black">
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            <button
+              className="bg-sky-600 hover:bg-sky-700 duration-300 px-2.5 py-2 rounded-lg text-white font-bold cursor-pointer"
+              onClick={handleGptSearchClick}
+            >
+              {!showGptSearch ? "Gpt Search" : "Home"}
+            </button>
             <p className="font-bold text-xl border-2 text-white border-red-700 rounded-lg px-2.5 py-1">
               {userSelector.displayName}
             </p>
             <button
-              className="m-2.5 px-2.5 py-1 rounded-lg font-bold text-white bg-red-700 cursor-pointer"
+              className=" px-2.5 py-1 rounded-lg font-bold text-white bg-red-700 hover:bg-red-800 duration-300 cursor-pointer"
               onClick={handleSignOut}
             >
               Sign Out
