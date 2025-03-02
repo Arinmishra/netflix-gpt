@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import lang from "../../utils/languageConstants";
-import client from "../../utils/openai";
+// import client from "../../utils/openai";
 
 const GptSearch = () => {
   const language = useSelector((store) => store.config.lang);
