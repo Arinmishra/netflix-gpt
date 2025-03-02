@@ -1,8 +1,18 @@
 import { useSelector } from "react-redux";
 import lang from "../../utils/languageConstants";
+import client from "../../utils/openai";
 
 const GptSearch = () => {
   const language = useSelector((store) => store.config.lang);
+
+  const handleGptSearch = async () => {
+    // api call
+
+    const gptResults = await client.chat.completions.create({
+      messages: [{ role: "user", content: "Say this is a test" }],
+      model: "gpt-3.5-turbo",
+    });
+  };
 
   return (
     <>
@@ -16,7 +26,10 @@ const GptSearch = () => {
           type="text"
           placeholder={lang[language].placeholder}
         ></input>
-        <button className="px-5 rounded-lg font-bold text-white bg-red-700 hover:bg-red-800 duration-300 cursor-pointer">
+        <button
+          className="px-5 rounded-lg font-bold text-white bg-red-700 hover:bg-red-800 duration-300 cursor-pointer"
+          onClick={handleGptSearch}
+        >
           {lang[language].search}
         </button>
       </div>
